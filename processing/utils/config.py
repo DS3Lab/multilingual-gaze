@@ -1,5 +1,4 @@
 import json
-
 import mlflow
 
 from processing.utils.utils import save_json

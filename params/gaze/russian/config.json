@@ -1,6 +1,6 @@
 {
   "feature_max": 100,
-  "bert_pretrained": "DeepPavlov/rubert-base-cased",
+  "model_pretrained": "DeepPavlov/rubert-base-cased",
   "full_finetuning": true,
   "weight_decay": 1e-2,
   "lr": 3e-5,

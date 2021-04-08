@@ -1,6 +1,6 @@
 {
   "feature_max": 100,
-  "bert_pretrained": "xlm-mlm-100-1280",
+  "model_pretrained": "xlm-mlm-100-1280",
   "full_finetuning": true,
   "weight_decay": 1e-2,
   "lr": 3e-5,

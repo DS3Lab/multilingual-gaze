@@ -1,6 +1,6 @@
 {
   "feature_max": 100,
-  "bert_pretrained": "bert-base-uncased",
+  "model_pretrained": "bert-base-uncased",
   "full_finetuning": true,
   "weight_decay": 1e-2,
   "lr": 3e-5,

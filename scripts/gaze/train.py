@@ -56,15 +56,15 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-dg", "--data_gaze_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/data/gaze")
+                        default="../../data/gaze")
     parser.add_argument("-rg", "--results_gaze_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/results/gaze")
+                        default="../../results/gaze")
     parser.add_argument("-pg", "--params_gaze_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/params/gaze")
+                        default="../..params/gaze")
     parser.add_argument("-md", "--mlflow_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/mlruns")
+                        default="../../mlruns")
     parser.add_argument("-ts", "--tasks", type=str, nargs="+",
-                        default=["zuco11"])
+                        default=["zuco"])
     parser.add_argument("-cf", "--config", type=str, default="config.json")
     args = parser.parse_args()
     main(args)

@@ -5,7 +5,6 @@ reproducibility_setup()
 import argparse
 import os
 
-import torch
 
 from processing import TokenClassificationModel, GazeTester, GazeDataLoader, Config, GazeDataset, \
     create_tokenizer, load_json, LOGGER
@@ -15,7 +14,6 @@ def main(args):
     data_gaze_dir = args.data_gaze_dir
     results_gaze_dir = args.results_gaze_dir
     tasks = args.tasks
-
 
     cf = Config.load_json(os.path.join(results_gaze_dir, "config_notune.json"))
 
@@ -31,11 +29,9 @@ def main(args):
             test_task = args.test_task
 
         results_task_dir = os.path.join(results_gaze_dir, task)
-        #test_data_dir = os.path.join(results_gaze_dir, test_task)
 
         model_init_args = load_json(os.path.join(results_task_dir, "model_init.json"))
         model = TokenClassificationModel.init(cf, **model_init_args)
-        #model.load_state_dict(torch.load(os.path.join(results_task_dir, "model-"+str(RANDOM_STATE)+".pth")))
 
         d = GazeDataset(cf, tokenizer, os.path.join(data_gaze_dir, test_task), test_task)
         d.read_pipeline()
@@ -54,11 +50,11 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-dg", "--data_gaze_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/data/gaze")
+                        default="../../data/gaze")
     parser.add_argument("-rg", "--results_gaze_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/results/gaze")
+                        default="../../results/gaze")
     parser.add_argument("-ts", "--tasks", type=str, nargs="+",
-                        default=["zuco11"])
+                        default=["zuco"])
     parser.add_argument("-tt", "--test_task", type=str, default=None)
     args = parser.parse_args()
     main(args)

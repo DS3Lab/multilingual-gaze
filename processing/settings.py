@@ -24,4 +24,4 @@ CONFIG = {
 }
 
 logging.config.dictConfig(CONFIG)
-LOGGER = logging.getLogger("ceiling-eye-nlp")
+LOGGER = logging.getLogger("processing")

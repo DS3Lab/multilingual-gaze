@@ -1,6 +1,6 @@
 {
   "feature_max": 100,
-  "bert_pretrained": "bert-base-german-cased",
+  "model_pretrained": "bert-base-german-cased",
   "full_finetuning": false,
   "weight_decay": 1e-2,
   "lr": 3e-5,

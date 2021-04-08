@@ -4,7 +4,6 @@ reproducibility_setup()
 
 import argparse
 import os
-
 import pandas as pd
 
 from processing import LOGGER
@@ -25,28 +24,23 @@ def main(args):
     for mode in modes:
         first = True
         for task in tasks:
-            #LOGGER.info(mode, task)
-            print(mode, task)
+            LOGGER.info(mode, task)
             if mode != "train":
                 data_precentage = 1.0
             if first:
-                print(os.path.join(data_gaze_dir, task, mode + "_dataset.csv"))
+                LOGGER.info(os.path.join(data_gaze_dir, task, mode + "_dataset.csv"))
                 dataset_pd = pd.read_csv(os.path.join(data_gaze_dir, task, mode + "_dataset.csv"),
                                          na_filter=False, index_col=0)
                 first = False
                 x = round(len(dataset_pd) * float(data_precentage))
-                print(len(dataset_pd))
                 dataset_pd = dataset_pd[:x]
-                print(len(dataset_pd))
 
             else:
-                print(os.path.join(data_gaze_dir, task, mode + "_dataset.csv"))
+                LOGGER.info(os.path.join(data_gaze_dir, task, mode + "_dataset.csv"))
                 to_append = pd.read_csv(os.path.join(data_gaze_dir, task, mode + "_dataset.csv"),
                                                            na_filter=False, index_col=0)
                 x = round(len(to_append) * float(data_precentage))
-                print(len(to_append))
                 to_append = to_append[:x]
-                print(len(to_append))
 
                 # re-index sentence numbers to avoid conflicts between multiple datasets
                 i = 1
@@ -73,9 +67,9 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-dg", "--data_gaze_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/data/gaze")
+                        default="../../data/gaze")
     parser.add_argument("-ts", "--tasks", type=str, nargs="+",
-                        default=["dundee", "geco", "zuco11", "zuco12", "zuco21"])
+                        default=["dundee", "geco", "zuco"])
     parser.add_argument("-pe", "--percentage", type=str,
                         default="1")
     args = parser.parse_args()

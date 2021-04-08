@@ -26,9 +26,9 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-dg", "--data_gaze_dir", type=str,
-                        default="/Users/fedepiro/Git/ceiling-eye-nlp/data/gaze")
+                        default="../../data/gaze")
     parser.add_argument("-ts", "--tasks", type=str, nargs="+",
-                        default=["dundee", "geco", "zuco11", "zuco12", "zuco21"])
+                        default=["dundee", "geco", "zuco"])
     parser.add_argument("-sp", "--split_percs", type=json.loads,
                         default='{"train": 0.9, "val": 0.05, "test": 0.05}')
     args = parser.parse_args()
