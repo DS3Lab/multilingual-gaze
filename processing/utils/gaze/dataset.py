@@ -57,7 +57,6 @@ class GazeDataset(Dataset):
             del self.targets["train"][d]
         print(len(self.text_inputs["train"]))
 
-
     def standardize(self):
         """
         Standardizes the features between 0 and self.feature_max.
@@ -84,8 +83,6 @@ class GazeDataset(Dataset):
         preds_pd.to_csv(filen)
 
         print("saved.")
-
-
 
     def pad_targets(self):
         """

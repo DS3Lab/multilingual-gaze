@@ -1,6 +1,5 @@
 import os
 import random
-
 import h5py
 import numpy as np
 import pandas as pd
@@ -703,173 +702,6 @@ class PotsdamDataNormalizer:
             self.flat_features.extend([f for f in self.frags_features[frag]])
 
 
-class NicenboimDataNormalizer:
-    def __init__(self, dir, task, print_every=3000):
-        self.dir = dir
-        self.task = task
-        self.print_every = print_every
-
-        self.full_subj = [2,3]#,2,3,4,5,6]#,37,8,64,3,2,4]
-
-        self.frags = []
-        self.subjs = []
-        self.flat_words = []
-
-    def read_file(self):
-        LOGGER.info(f"Reading file for task {self.task}")
-        self.file = pd.read_csv(self.dir + "/NicenboimDataETSpanish.csv", sep=",", header=0)
-
-    #def read_frags(self):
-     #   self.frags = sorted(self.file["PART"].unique())
-
-    def read_frags(self):
-        self.frags = sorted(self.file["sentenceid"].unique())
-        print(self.frags)
-        print(len(self.frags))
-
-    def read_subjs(self):
-        """
-        Reads list of subjs and sorts it such that the full subject is in the first position.
-        """
-        LOGGER.info(f"Reading subjects for task {self.task}")
-        self.subjs = sorted(self.file["subj"].unique())
-
-        print(self.subjs)
-        print(len(self.subjs))
-
-    def read_words(self):
-        """
-        Word list is extracted from the full subject.
-        """
-
-        self.sents = []
-        LOGGER.info(f"Reading words for task {self.task}")
-        for s in self.subjs:
-            for f in self.frags:
-                flt_file = self.file
-                isfrag = flt_file["sentenceid"] == f
-                issubj = flt_file["subj"] == s
-                flt_file = flt_file[isfrag]
-                flt_file = flt_file[issubj]
-                sent = [str(w) for w in flt_file["word"].tolist()]
-                if sent and sent not in self.sents:
-                    self.sents.append(sent)
-                    print(f, s, [str(w) for w in flt_file["word"].tolist()])
-            print(s, len(self.sents))
-
-        print(len(self.sents))
-        for s in self.sents:
-            self.flat_words.extend([str(w) for w in s])
-
-        print(len(self.flat_words))
-
-
-    def match(self, pattern):
-        """
-        Finds all occurrences of "pattern" (list of words) in "self.flat_words".
-        """
-        return [i for i in range(len(self.flat_words) - len(pattern) + 1)
-                if self.flat_words[i:i + len(pattern)] == pattern]
-
-    def find_idx_nicenb(self, idx):
-        """
-        Finds index of the word at dataset index "i" in the flat list of words "self.flat_words". This is
-        performed by searching the word and its surrounding words in the flat list of words, taking
-        care of possible missings before and after the word. Width of context is increased until we find
-        a unique match.
-        """
-        word = str(self.file.iloc[idx]["word"])
-        matches = None
-        beam = 0
-
-        while matches is None or len(matches) > 1:
-            beam += 1
-            prev_start = idx - beam
-            if prev_start < 0:
-                prev_words = [str(i) for i in self.file.iloc[:idx]["word"].tolist()]
-                offset = idx
-            else:
-                prev_words = [str(i) for i in self.file.iloc[prev_start:idx]["word"].tolist()]
-                offset = beam
-            nxt_end = idx + beam
-            if nxt_end > len(self.file):
-                nxt_words = [str(i) for i in self.file.iloc[idx:]["word"].tolist()]
-            else:
-                nxt_words = [str(i) for i in self.file.iloc[idx + 1:idx + 1 + beam]["word"].tolist()]
-
-            pattern = prev_words + [word] + nxt_words
-            matches = self.match(pattern)
-            if len(matches) == 0:
-                pattern = prev_words + [word]
-                matches = self.match(pattern)
-                if len(matches) == 0:
-                    pattern = [word] + nxt_words
-                    matches = self.match(pattern)
-                    offset = 0
-
-        return matches[0] + offset
-
-    def calc_features(self):
-
-        LOGGER.info(f"Start of features calculation for task {self.task}")
-        # for each feature, we build a pd.dataframe with shape (len(words), len(subjs)) to be filled with data; data
-        # will be averaged over the subject dimension (columns)
-        empty = [[None] * len(self.subjs)] * len(self.flat_words)
-        nfx_pd = pd.DataFrame(empty, columns=self.subjs)
-        ffd_pd = pd.DataFrame(empty, columns=self.subjs)
-        fpd_pd = pd.DataFrame(empty, columns=self.subjs)
-        tfd_pd = pd.DataFrame(empty, columns=self.subjs)
-        mfd_pd = pd.DataFrame(empty, columns=self.subjs)
-        fxp_pd = pd.DataFrame(empty, columns=self.subjs)
-        nrfx_pd = pd.DataFrame(empty, columns=self.subjs)
-        rrdp_pd = pd.DataFrame(empty, columns=self.subjs)
-
-        for i in range(len(self.file)):
-
-            if i % self.print_every == 0:
-                LOGGER.info(f"Processing line {i + 1} out of {len(self.file)}")
-
-            row = self.file.iloc[i]
-            subj = row["subj"]
-            word = row["word"]
-            #print(i, subj, word)
-
-            word_index = self.find_idx_nicenb(i)  # i is the index iterating through all the lines of the dataset,
-                # word_index is the index of the corresponding word in the flat words list; this calculation requires
-                # some care because not all subjects are complete and the list of missings is not reported
-
-            # todo: get correct numbers here for nfx!
-            nfx = 0 if row["FFD"] == "NA" else 1
-            fixed = 0 if row["FFD"] == "NA" else 1
-            ffd = 0.0 if row["FFD"] == "NA" else float(row["FFD"])
-            fpd = 0.0 if row["FPRT"] == "NA" else float(row["FPRT"])
-            tfd = 0 if row["TFT"] == "NA" else row["TFT"]
-            mfd = get_mean_fix_dur(nfx, tfd)
-            fxp = get_fix_prob(fixed)
-            nrfx = get_n_refix(nfx)
-            rrdp = get_reread_prob(nrfx)
-
-            nfx_pd[subj][word_index] = nfx
-            ffd_pd[subj][word_index] = ffd
-            fpd_pd[subj][word_index] = fpd
-            tfd_pd[subj][word_index] = tfd
-            mfd_pd[subj][word_index] = mfd
-            fxp_pd[subj][word_index] = fxp
-            nrfx_pd[subj][word_index] = nrfx
-            rrdp_pd[subj][word_index] = rrdp
-
-        nfx = nfx_pd.mean(axis=1).tolist()
-        ffd = ffd_pd.mean(axis=1).tolist()
-        fpd = fpd_pd.mean(axis=1).tolist()
-        tfd = tfd_pd.mean(axis=1).tolist()
-        mfd = mfd_pd.mean(axis=1).tolist()
-        fxp = fxp_pd.mean(axis=1).tolist()
-        nrfx = nrfx_pd.mean(axis=1).tolist()
-        rrdp = rrdp_pd.mean(axis=1).tolist()
-
-        features = [nfx, ffd, fpd, tfd, mfd, fxp, nrfx, rrdp]
-        self.flat_features = [np.array(i) for i in list(zip(*features))]
-
 
 class RussSentCorpDataNormalizer:
     def __init__(self, dir, task, print_every=3000):
@@ -995,21 +827,19 @@ class RussSentCorpDataNormalizer:
         print(len(self.flat_features))
 
 
-class GazeDataNormalizer(DundeeDataNormalizer, GECODataNormalizer, ZuCo1DataNormalizer, ZuCo2DataNormalizer, PotsdamDataNormalizer, NicenboimDataNormalizer, RussSentCorpDataNormalizer):
+class GazeDataNormalizer(DundeeDataNormalizer, GECODataNormalizer, ZuCo1DataNormalizer, ZuCo2DataNormalizer, PotsdamDataNormalizer, RussSentCorpDataNormalizer):
     def __init__(self, dir, task, split_percs):
         if task == "dundee":
             DundeeDataNormalizer.__init__(self, dir, task)
         elif task == "geco" or task == "geco-nl":
             GECODataNormalizer.__init__(self, dir, task)
         elif task == "zuco11" or task == "zuco12":
-            # if using the old MATLAB file, change back to ZuCo1DataNormalizer
+            # if using the old MATLAB files, change back to ZuCo1DataNormalizer
             ZuCo2DataNormalizer.__init__(self, dir, task)
         elif task == "zuco21":
             ZuCo2DataNormalizer.__init__(self, dir, task)
         elif task == "potsdam":
             PotsdamDataNormalizer.__init__(self, dir, task)
-        elif task == "nicenboim":
-            NicenboimDataNormalizer.__init__(self, dir, task)
         elif task == "rsc":
             RussSentCorpDataNormalizer.__init__(self, dir, task)
 
@@ -1054,12 +884,6 @@ class GazeDataNormalizer(DundeeDataNormalizer, GECODataNormalizer, ZuCo1DataNorm
             PotsdamDataNormalizer.read_subjs(self)
             PotsdamDataNormalizer.read_words(self)
             PotsdamDataNormalizer.calc_features(self)
-        elif self.task == "nicenboim":
-            NicenboimDataNormalizer.read_file(self)
-            NicenboimDataNormalizer.read_frags(self)
-            NicenboimDataNormalizer.read_subjs(self)
-            NicenboimDataNormalizer.read_words(self)
-            NicenboimDataNormalizer.calc_features(self)
         elif self.task == "rsc":
             RussSentCorpDataNormalizer.read_file(self)
             RussSentCorpDataNormalizer.read_frags(self)
