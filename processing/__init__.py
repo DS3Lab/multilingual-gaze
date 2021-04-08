@@ -1,6 +1,6 @@
 from processing.model.gaze.tester import GazeTester
 from processing.model.gaze.trainer import GazeTrainer
-from processing.model.gaze.model import TokenClassificationModel
+from processing.model.model import TokenClassificationModel
 from processing.settings import LOGGER
 from processing.utils.config import Config
 from processing.utils.gaze.data_normalizers import GazeDataNormalizer
