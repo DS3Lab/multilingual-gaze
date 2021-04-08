@@ -1,6 +1,7 @@
 {
   "feature_max": 100,
   "model_pretrained": "xlm-mlm-en-2048",
+  "finetune_on_gaze": true,
   "full_finetuning": true,
   "weight_decay": 1e-2,
   "lr": 3e-5,

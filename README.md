@@ -1,16 +1,14 @@
-# multilingual-gaze
+# Eye-Tracking Feature Prediction
 This repo contains the code for the experiments presented in the following paper:  
 Nora Hollenstein, Federico Pirovano, Lena Jäger, Ce Zhang & Lisa Beinborn. "Multilingual language models predict human reading behavior". _NAACL 2021_.
 
 
 ## Folders
-The repository is divided into three folders: `models`, `scripts`, and `params`:
-* `models` contains the python package of the project;
+The repository is divided into three folders:  
+* `processing` contains the python package of the project;
 * `params` contains example parameter configurations for training and testing;
 * `scripts` contains the python runnable scripts of the project.
 
-# Gaze Features Prediction from Text Data
-This folder contains the source code to train and test our model for gaze features prediction from text data.
 
 ## Running the code
 The runnable scripts are: [combine_datasets.py](combine_datasets.py), [normalize_data.py](normalize_data.py), [train.py](train.py), and [test.py](test.py).

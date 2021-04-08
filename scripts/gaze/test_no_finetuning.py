@@ -17,8 +17,8 @@ def main(args):
 
     cf = Config.load_json(os.path.join(results_gaze_dir, "config_notune.json"))
 
-    print(os.path.join(results_gaze_dir, "config_notune.json"))
-    print(cf.bert_pretrained)
+    LOGGER.info(os.path.join(results_gaze_dir, "config_notune.json"))
+    LOGGER.info("Model:", cf.bert_pretrained)
     tokenizer = create_tokenizer(cf.bert_pretrained)
 
     for task in tasks:

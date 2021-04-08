@@ -16,6 +16,7 @@ def main(args):
     tasks = args.tasks
 
     cf = Config.load_json(os.path.join(results_gaze_dir, "config.json"))
+    LOGGER.info("Model:", cf.bert_pretrained)
 
     tokenizer = create_tokenizer(cf.bert_pretrained)
 
@@ -30,7 +31,9 @@ def main(args):
 
         model_init_args = load_json(os.path.join(results_task_dir, "model_init.json"))
         model = TokenClassificationModel.init(cf, **model_init_args)
-        model.load_state_dict(torch.load(os.path.join(results_task_dir, "model-"+str(RANDOM_STATE)+".pth")))
+        if cf.finetune_on_gaze:
+            # set finetune_on_gaze to False to test the pretrained models without fine-tuning on eye-tracking data
+            model.load_state_dict(torch.load(os.path.join(results_task_dir, "model-"+str(RANDOM_STATE)+".pth")))
 
         d = GazeDataset(cf, tokenizer, os.path.join(data_gaze_dir, test_task), test_task)
         d.read_pipeline()
