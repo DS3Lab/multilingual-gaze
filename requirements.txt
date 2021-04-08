@@ -1,0 +1,14 @@
+h5py==2.10.0
+keras==2.3.1
+mlflow==1.8.0
+numpy==1.18.4
+pandas==1.0.3
+sklearn==0.0
+seqeval==0.0.12
+tensorboard==2.2.1
+tensorflow==2.2.0
+torch==1.4.0
+torchvision==0.5.0
+tqdm==4.46.0
+transformers==2.8.0
+xlrd==1.2.0
