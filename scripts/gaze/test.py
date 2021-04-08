@@ -16,7 +16,6 @@ def main(args):
     tasks = args.tasks
 
     cf = Config.load_json(os.path.join(results_gaze_dir, "config.json"))
-    LOGGER.info("Model:", cf.model_pretrained)
 
     tokenizer = create_tokenizer(cf.model_pretrained)
 
