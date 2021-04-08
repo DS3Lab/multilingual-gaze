@@ -33,7 +33,10 @@ def main(args):
         model = TokenClassificationModel.init(cf, **model_init_args)
         if cf.finetune_on_gaze:
             # set finetune_on_gaze to False to test the pretrained models without fine-tuning on eye-tracking data
+            LOGGER.info("Fine-tuning on eye-tracking data!")
             model.load_state_dict(torch.load(os.path.join(results_task_dir, "model-"+str(RANDOM_STATE)+".pth")))
+        else:
+            LOGGER.info("NOT fine-tuning on eye-tracking data!")
 
         d = GazeDataset(cf, tokenizer, os.path.join(data_gaze_dir, test_task), test_task)
         d.read_pipeline()
