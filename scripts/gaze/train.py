@@ -22,7 +22,7 @@ def main(args):
     cf = Config.load_json(os.path.join(params_gaze_dir, config))
     cf.save_json(os.path.join(results_gaze_dir, "config.json"))
 
-    tokenizer = create_tokenizer(cf.bert_pretrained)
+    tokenizer = create_tokenizer(cf.model_pretrained)
 
     for task in tasks:
         d = GazeDataset(cf, tokenizer, os.path.join(data_gaze_dir, task), task)

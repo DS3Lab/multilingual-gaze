@@ -16,9 +16,9 @@ def main(args):
     tasks = args.tasks
 
     cf = Config.load_json(os.path.join(results_gaze_dir, "config.json"))
-    LOGGER.info("Model:", cf.bert_pretrained)
+    LOGGER.info("Model:", cf.model_pretrained)
 
-    tokenizer = create_tokenizer(cf.bert_pretrained)
+    tokenizer = create_tokenizer(cf.model_pretrained)
 
     for task in tasks:
 
@@ -47,8 +47,8 @@ def main(args):
         tester.evaluate()
 
         eval_dir = os.path.join(results_gaze_dir, task)
-        tester.save_preds(os.path.join(eval_dir, "preds-"+str(RANDOM_STATE)+"-"+cf.bert_pretrained.replace("/","")+".csv"))
-        tester.save_logs(os.path.join(eval_dir, "results."+str(RANDOM_STATE)+"-"+cf.bert_pretrained.replace("/","")+".log"))
+        tester.save_preds(os.path.join(eval_dir, "preds-"+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+".csv"))
+        tester.save_logs(os.path.join(eval_dir, "results."+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+".log"))
         LOGGER.info(f"Testing completed, training on task {task}, testing on {test_task}")
 
 
