@@ -11,16 +11,16 @@ The repository is divided into three folders:
 
 
 ## Running the code
-The runnable scripts are: [combine_datasets.py](combine_datasets.py), [normalize_data.py](normalize_data.py), [train.py](train.py), and [test.py](test.py).
 
 A maximum of three folders have to be specified:
 * `--data_gaze_dir` will contain the folders for each dataset. The script expects this folder to contain one dataset folder for each task specified in the arguments. The name of the folder and the name of the task need to match;
 * `--results_gaze_dir` will be created to contain the results of the gaze prediction task of the project;
 * `--params_gaze_dir` will contain the json configuration files for the gaze prediction task.
 
-[combine_datasets.py](combine_datasets.py) combines the datasets passed as option into one dataset under the name `all`.  
-The other scripts are meant to be run in order: first [normalize_data.py](normalize_data.py), then [train.py](train.py), and finally [test.py](test.py).  
-The [normalize_data.py](normalize_data.py) script will convert and save the data from dataset-specific format into a shared format that can be read by the `GazeDataset` class.
+The runnable scripts are: [combine_datasets.py](https://github.com/DS3Lab/multilingual-gaze/blob/main/scripts/gaze/combine_datasets.py), [normalize_data.py](https://github.com/DS3Lab/multilingual-gaze/blob/main/scripts/gaze/normalize_data.py), [train.py](https://github.com/DS3Lab/multilingual-gaze/blob/main/scripts/gaze/train.py), and [test.py](https://github.com/DS3Lab/multilingual-gaze/blob/main/scripts/gaze/test.py).  
+`combine_datasets.py` combines the datasets passed as option into one dataset under the name `all`.  
+The other scripts are meant to be run in order: first `normalize_data.py`, then `train.py`, and finally `test.py`.  
+The `normalize_data.py` script will convert and save the data from dataset-specific format into a shared format that can be read by the `GazeDataset` class.
 
 Example:  
 `python scripts/gaze/normalize_data.py --data_gaze_dir data/gaze/ --tasks geco-nl`
