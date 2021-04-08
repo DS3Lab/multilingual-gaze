@@ -16,7 +16,7 @@ CONFIG = {
         }
     },
     "loggers": {
-        "ceiling-eye-nlp": {
+        "processing": {
             "handlers": ["console"],
             "level": "DEBUG"
         }
