@@ -9,6 +9,9 @@ The repository is divided into three folders:
 * `params` contains example parameter configurations for training and testing;
 * `scripts` contains the python runnable scripts of the project.
 
+## Requirements
+
+The Python version used is 3.7.7.
 
 ## Running the code
 
