@@ -614,8 +614,8 @@ class PotsdamDataNormalizer:
         for file in sorted(os.listdir(self.dir)):
             if not file.endswith(".txt"):
                 continue
-            frag = file.split("_")[2][4:6]
-            subj = file.split("_")[1]
+            frag = file.split("_")[1]
+            subj = file.split("_")[0]
             fpath = os.path.join(self.dir, file)
             self.add_file(fpath, frag, subj)
 
@@ -640,7 +640,7 @@ class PotsdamDataNormalizer:
         LOGGER.info(f"Reading words for task {self.task}")
         for frag in self.frags:
             self.frags_words[frag] = []
-            flt_file = pd.read_csv(self.files[frag][self.full_subj][0], sep=",", header=0)
+            flt_file = pd.read_csv(self.files[frag][self.full_subj][0], sep="\t", header=0)
             for index, row in flt_file.iterrows():
                 if index != len(flt_file)-1:
                     if flt_file.at[index+1, 'SentenceBegin'] == 1:
@@ -667,12 +667,12 @@ class PotsdamDataNormalizer:
             rrdp_pd = pd.DataFrame(empty, columns=self.subjs)
 
             for j, subj in enumerate(self.subjs):
-                flt_file = pd.read_csv(self.files[frag][self.full_subj][0], sep=",", header=0)
+                flt_file = pd.read_csv(self.files[frag][self.full_subj][0], sep="\t", header=0)
                 for k, w in enumerate(self.frags_words[frag]):
                     ffd = flt_file["FFD"].tolist()[k]
                     fpd = flt_file["FPRT"].tolist()[k]
                     tfd = flt_file["TFT"].tolist()[k]
-                    nfx = flt_file["nFix"].tolist()[k]
+                    nfx = flt_file["Fix"].tolist()[k]
                     mfd = get_mean_fix_dur(nfx, tfd)
                     fxp = get_fix_prob(nfx)
                     nrfx = get_n_refix(nfx)
