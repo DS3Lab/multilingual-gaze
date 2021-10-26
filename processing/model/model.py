@@ -14,15 +14,18 @@ class TokenClassificationModel:
     @classmethod
     def init(cls, cf, d_out):
         if "bert" in cf.model_pretrained:
-            model = BertForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out,
+            if cf.random_weights is True:
+                # initiate Bert with random weights
+                LOGGER.info("initiating random Bert model")
+                model =  AutoModel.from_config(AutoConfig.from_pretrained(cf.model_pretrained))
+            else:
+                model = BertForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out,
                                         output_attentions=False, output_hidden_states=False)
+
         elif "xlm" in cf.model_pretrained:
             model = XLMForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False)
 
-        elif cf.random_weights is True:
-            # initiate Bert with random weights
-            LOGGER.info("initiating random Bert model")
-            model =  AutoModel.from_config(AutoConfig.from_pretrained(cf.model_pretrained))
+
 
         model.d_out = d_out
 
