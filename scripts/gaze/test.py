@@ -1,4 +1,5 @@
 from settings import DEVICE, reproducibility_setup, RANDOM_STATE
+from transformers import AutoConfig
 
 reproducibility_setup()
 
@@ -30,6 +31,9 @@ def main(args):
 
         model_init_args = load_json(os.path.join(results_task_dir, "model_init.json"))
         model = TokenClassificationModel.init(cf, **model_init_args)
+
+        LOGGER.info(cf.random_weights)
+
         if cf.finetune_on_gaze:
             # set finetune_on_gaze to False in the cf file loaded above to test the pretrained models without fine-tuning on eye-tracking data
             LOGGER.info("Fine-tuning on eye-tracking data!")
