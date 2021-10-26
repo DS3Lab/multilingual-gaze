@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 from transformers import XLMForTokenClassification, BertForTokenClassification, AdamW, get_linear_schedule_with_warmup
+from transformers import AutoConfig
+
 
 
 class TokenClassificationModel:
@@ -16,6 +18,11 @@ class TokenClassificationModel:
                                         output_attentions=False, output_hidden_states=False)
         elif "xlm" in cf.model_pretrained:
             model = XLMForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False)
+
+        elif "random-weights" in cf.model_pretrained:
+            # initiate Bert with random weights
+            print("initiating random Bert model")
+            model =  AutoModel.from_config(AutoConfig.from_pretrained('bert-base-uncased'))
 
         model.d_out = d_out
 
