@@ -24,6 +24,7 @@ class Tester(ABC):
 
         for key in self.metrics:
             LOGGER.info(f"val_{key}: {self.metrics[key]:.4f} {self.units[key]}")
+        print(self.metrics)
 
     @abstractmethod
     def predict(self):
