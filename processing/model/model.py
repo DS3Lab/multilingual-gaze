@@ -19,10 +19,10 @@ class TokenClassificationModel:
         elif "xlm" in cf.model_pretrained:
             model = XLMForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False)
 
-        elif "random-weights" in cf.model_pretrained:
+        elif cf.random_weights is True:
             # initiate Bert with random weights
             print("initiating random Bert model")
-            model =  AutoModel.from_config(AutoConfig.from_pretrained('bert-base-uncased'))
+            model =  AutoModel.from_config(AutoConfig.from_pretrained(cf.model_pretrained))
 
         model.d_out = d_out
 
