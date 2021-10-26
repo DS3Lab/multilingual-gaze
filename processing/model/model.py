@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from transformers import XLMForTokenClassification, BertForTokenClassification, AdamW, get_linear_schedule_with_warmup
 from transformers import AutoConfig
-from processing import LOGGER
 
 
 
