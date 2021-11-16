@@ -48,7 +48,6 @@ def main(args):
 
         dl = GazeDataLoader(cf, d.numpy["test"], d.target_pad, mode="test")
 
-        model.eval()
         model.summary()
 
         tester = GazeTester(model, dl, DEVICE, task)

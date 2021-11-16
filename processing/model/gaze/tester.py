@@ -35,7 +35,7 @@ class GazeTester(Tester):
                 b_input, b_target, b_mask = batch
                 b_input = b_input.to(self.device)
                 b_target = b_target.to(self.device)
-                b_mask = b_mask.to(self.device)
+                b_mask = b_maevsk.to(self.device)
 
                 b_output = self.model(input_ids=b_input, attention_mask=b_mask)[0]
 

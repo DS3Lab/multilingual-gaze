@@ -16,7 +16,9 @@ class TokenClassificationModel:
         if "bert" in cf.model_pretrained:
             if cf.random_weights is True:
                 # initiate Bert with random weights
-                model =  AutoModel.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
+                model =  BertForTokenClassification.config(cf.model_pretrained, num_labels=d_out,
+                                        output_attentions=False, output_hidden_states=False)
+                #model =  AutoModel.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
             else:
                 model = BertForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out,
                                         output_attentions=False, output_hidden_states=False)
