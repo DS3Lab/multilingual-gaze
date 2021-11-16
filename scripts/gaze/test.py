@@ -51,9 +51,6 @@ def main(args):
         model.summary()
 
         tester = GazeTester(model, dl, DEVICE, task)
-
-
-
         tester.evaluate()
 
         eval_dir = os.path.join(results_gaze_dir, task)
