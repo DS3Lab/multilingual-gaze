@@ -49,6 +49,9 @@ def main(args):
         dl = GazeDataLoader(cf, d.numpy["test"], d.target_pad, mode="test")
 
         tester = GazeTester(model, dl, DEVICE, task)
+
+        model.summary()
+
         tester.evaluate()
 
         eval_dir = os.path.join(results_gaze_dir, task)
