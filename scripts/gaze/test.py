@@ -32,7 +32,9 @@ def main(args):
         model_init_args = load_json(os.path.join(results_task_dir, "model_init.json"))
         model = TokenClassificationModel.init(cf, **model_init_args)
 
+        LOGGER.info("initiating random Bert model: ")
         LOGGER.info(cf.random_weights)
+
 
         if cf.finetune_on_gaze:
             # set finetune_on_gaze to False in the cf file loaded above to test the pretrained models without fine-tuning on eye-tracking data
