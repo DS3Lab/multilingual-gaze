@@ -17,15 +17,6 @@ class TokenClassificationModel:
             if cf.random_weights is True:
                 # initiate Bert with random weights
                 model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
-                for module_ in model.named_modules():
-                    if isinstance(module_[1],(torch.nn.Linear, torch.nn.Embedding)):
-                        module_[1].weight.data.normal_(mean=0.0, std=model.config.initializer_range)
-                    elif isinstance(module_[1], torch.nn.LayerNorm):
-                        module_[1].bias.data.zero_()
-                        module_[1].weight.data.fill_(1.0)
-                    if isinstance(module_[1], torch.nn.Linear) and module_[1].bias is not None:
-                        module_[1].bias.data.zero_()
-
             else:
                 model = BertForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out,
                                         output_attentions=False, output_hidden_states=False)

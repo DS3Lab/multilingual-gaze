@@ -48,7 +48,7 @@ def main(args):
 
         dl = GazeDataLoader(cf, d.numpy["test"], d.target_pad, mode="test")
 
-        LOGGER.info(model)
+        #LOGGER.info(model)
 
         tester = GazeTester(model, dl, DEVICE, task)
         tester.evaluate()
