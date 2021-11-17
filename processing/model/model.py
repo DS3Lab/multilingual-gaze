@@ -5,8 +5,9 @@ from transformers import AutoConfig, AutoModelForTokenClassification
 
 def randomize_model(model):
     """https://stackoverflow.com/questions/68058647/initialize-huggingface-bert-with-random-weights"""
-    print(model.named_modules())
+    #print(model.named_modules())
     for module_ in model.named_modules():
+        print(module_)
         if isinstance(module_[1],(torch.nn.Linear, torch.nn.Embedding)):
             module_[1].weight.data.normal_(mean=0.0, std=model.config.initializer_range)
         elif isinstance(module_[1], torch.nn.LayerNorm):
