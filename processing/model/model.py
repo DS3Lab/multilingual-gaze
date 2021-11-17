@@ -10,9 +10,13 @@ def randomize_model(model):
             print(module_[1].weight.data)
             module_[1].weight.data.normal_(mean=0.0, std=model.config.initializer_range)
             print(module_[1].weight.data)
+            print(".....")
         elif isinstance(module_[1], torch.nn.LayerNorm):
             module_[1].bias.data.zero_()
+            print(module_[1].weight.data)
             module_[1].weight.data.fill_(1.0)
+            print(module_[1].weight.data)
+            print("-----")
         if isinstance(module_[1], torch.nn.Linear) and module_[1].bias is not None:
             module_[1].bias.data.zero_()
     return model
