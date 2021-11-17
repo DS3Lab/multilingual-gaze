@@ -59,4 +59,4 @@ class Tester(ABC):
         log_text = [self.task] + self.logs + [seed, config.model_pretrained, config.finetune_on_gaze, config.full_finetuning, config.random_weights]
 
         with open(fpath, "a") as f:
-            f.writelines("\t".join(map(str, log_text)))
+            f.write("\t".join(map(str, log_text)))
