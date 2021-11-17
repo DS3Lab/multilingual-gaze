@@ -36,6 +36,8 @@ def main(args):
         }
         save_json(model_init_args, os.path.join(results_gaze_dir, task, "model_init.json"))
 
+        LOGGER.info("initiating random Bert model: ")
+        LOGGER.info(cf.random_weights)
         model = TokenClassificationModel.init(cf, **model_init_args)
         optim = create_finetuning_optimizer(cf, model)
         scheduler = create_scheduler(cf, optim, train_dl)
