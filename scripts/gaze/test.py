@@ -42,6 +42,7 @@ def main(args):
             print(model.classifier.weight.data)
         else:
             LOGGER.info("Random regression layer, NO trained weights loaded!")
+            print(model.classifier.weight.data)
 
         d = GazeDataset(cf, tokenizer, os.path.join(data_gaze_dir, test_task), test_task)
         d.read_pipeline()
