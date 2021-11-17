@@ -3,7 +3,6 @@ import torch.nn as nn
 from transformers import XLMForTokenClassification, BertForTokenClassification, AdamW, get_linear_schedule_with_warmup
 from transformers import AutoConfig, AutoModelForTokenClassification, BertConfig
 
-"""
 def randomize_model(model):
     #https://stackoverflow.com/questions/68058647/initialize-huggingface-bert-with-random-weights
     for module_ in model.named_modules():
@@ -15,7 +14,6 @@ def randomize_model(model):
         if isinstance(module_[1], torch.nn.Linear) and module_[1].bias is not None:
             module_[1].bias.data.zero_()
     return model
-"""
 
 class TokenClassificationModel:
     """
@@ -28,18 +26,16 @@ class TokenClassificationModel:
         if "bert" in cf.model_pretrained:
             if cf.random_weights is True:
                 # initiate Bert with random weights
-                # todo: this is not supposed to load the pre-trained weights, make sure this is true!!
                 print("initiating Bert with random weights")
-                config = BertConfig()
-                #print(model)
-                model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(config, num_labels=d_out, output_attentions=False, output_hidden_states=False))
-                #model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
-                #model = randomize_model(model)
+                model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
+                model = randomize_model(model)
+                print(model.classifier)
             else:
                 # initiate Bert with pre-trained weights
                 print("initiating Bert with pre-trained weights")
                 model = BertForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out,
                                         output_attentions=False, output_hidden_states=False)
+                print(model.classifier)
 
         elif "xlm" in cf.model_pretrained:
             model = XLMForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False)
