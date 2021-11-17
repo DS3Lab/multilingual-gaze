@@ -35,7 +35,6 @@ def main(args):
         LOGGER.info("initiating random Bert model: ")
         LOGGER.info(cf.random_weights)
 
-
         if cf.finetune_on_gaze:
             # set finetune_on_gaze to False in the cf file loaded above to test the pretrained models without fine-tuning on eye-tracking data
             LOGGER.info("Fine-tuning on eye-tracking data!")
@@ -56,6 +55,7 @@ def main(args):
         eval_dir = os.path.join(results_gaze_dir, task)
         tester.save_preds(os.path.join(eval_dir, "preds-"+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+".csv"))
         tester.save_logs(os.path.join(eval_dir, "results."+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+".log"))
+        tester.save_logs_all(os.path.join(results_gaze_dir, "result_log.csv"), RANDOM_STATE, cf)
         LOGGER.info(f"Testing completed, training on task {task}, testing on {test_task}")
 
 

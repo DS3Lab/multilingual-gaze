@@ -47,3 +47,16 @@ class Tester(ABC):
 
         with open(fpath, "w") as f:
             f.writelines(self.logs)
+
+    def save_logs_all(self, fpath, seed, config):
+        dir = os.path.dirname(fpath)
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+
+        for key in self.metrics:
+            self.logs.append(f"{key}: {self.metrics[key]:.4f} {self.units[key]}\n")
+
+        log_text = [self.task] + self.logs + [seed, config.model_pretrained, config.finetune_on_gaze, config.full_finetuning, config.random_weights]
+
+        with open(fpath, "a") as f:
+            f.writelines("\t".join(log_text))

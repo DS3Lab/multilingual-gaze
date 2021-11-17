@@ -4,6 +4,7 @@ from transformers import XLMForTokenClassification, BertForTokenClassification, 
 from transformers import AutoConfig, AutoModelForTokenClassification
 
 def randomize_model(model):
+    """https://stackoverflow.com/questions/68058647/initialize-huggingface-bert-with-random-weights"""
     for module_ in model.named_modules():
         if isinstance(module_[1],(torch.nn.Linear, torch.nn.Embedding)):
             module_[1].weight.data.normal_(mean=0.0, std=model.config.initializer_range)
