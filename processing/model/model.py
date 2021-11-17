@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from transformers import XLMForTokenClassification, BertForTokenClassification, AdamW, get_linear_schedule_with_warmup
-from transformers import AutoConfig, AutoModelForTokenClassification
+from transformers import AutoConfig, AutoModelForTokenClassification, BertConfig
 
 """
 def randomize_model(model):
