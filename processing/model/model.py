@@ -7,14 +7,13 @@ def randomize_model(model):
     """https://stackoverflow.com/questions/68058647/initialize-huggingface-bert-with-random-weights"""
     for module_ in model.named_modules():
         if isinstance(module_[1],(torch.nn.Linear, torch.nn.Embedding)):
-            print("here1")
+            print(module_[1].weight.data)
             module_[1].weight.data.normal_(mean=0.0, std=model.config.initializer_range)
+            print(module_[1].weight.data)
         elif isinstance(module_[1], torch.nn.LayerNorm):
-            print("here2")
             module_[1].bias.data.zero_()
             module_[1].weight.data.fill_(1.0)
         if isinstance(module_[1], torch.nn.Linear) and module_[1].bias is not None:
-            print("here3")
             module_[1].bias.data.zero_()
     return model
 
