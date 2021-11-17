@@ -3,7 +3,16 @@ import torch.nn as nn
 from transformers import XLMForTokenClassification, BertForTokenClassification, AdamW, get_linear_schedule_with_warmup
 from transformers import AutoConfig, AutoModelForTokenClassification
 
-
+def randomize_model(model):
+    for module_ in model.named_modules():
+        if isinstance(module_[1],(torch.nn.Linear, torch.nn.Embedding)):
+            module_[1].weight.data.normal_(mean=0.0, std=model.config.initializer_range)
+        elif isinstance(module_[1], torch.nn.LayerNorm):
+            module_[1].bias.data.zero_()
+            module_[1].weight.data.fill_(1.0)
+        if isinstance(module_[1], torch.nn.Linear) and module_[1].bias is not None:
+            module_[1].bias.data.zero_()
+    return model
 
 class TokenClassificationModel:
     """
@@ -19,6 +28,7 @@ class TokenClassificationModel:
                 # todo: this is not supposed to load the pre-trained weights, make sure this is true!!
                 print("initiating Bert with random weights")
                 model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
+                model = randomize_model(model)
             else:
                 # initiate Bert with pre-trained weights
                 print("initiating Bert with pre-trained weights")
