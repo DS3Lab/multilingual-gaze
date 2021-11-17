@@ -30,14 +30,14 @@ def main(args):
         results_task_dir = os.path.join(results_gaze_dir, task)
 
         model_init_args = load_json(os.path.join(results_task_dir, "model_init.json"))
-        model = TokenClassificationModel.init(cf, **model_init_args)
 
         LOGGER.info("initiating random Bert model: ")
         LOGGER.info(cf.random_weights)
+        model = TokenClassificationModel.init(cf, **model_init_args)
 
         if cf.finetune_on_gaze:
             # set finetune_on_gaze to False in the cf file loaded above to test the pretrained models without fine-tuning on eye-tracking data
-            LOGGER.info("Fine-tuning on eye-tracking data!")
+            LOGGER.info("Fine-tuned on eye-tracking data!")
             model.load_state_dict(torch.load(os.path.join(results_task_dir, "model-"+str(RANDOM_STATE)+".pth")))
         else:
             LOGGER.info("NOT fine-tuning on eye-tracking data!")
