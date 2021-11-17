@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from transformers import XLMForTokenClassification, BertForTokenClassification, AdamW, get_linear_schedule_with_warmup
 from transformers import AutoConfig, AutoModelForTokenClassification
-from processing import LOGGER
 
 
 
@@ -18,11 +17,11 @@ class TokenClassificationModel:
             if cf.random_weights is True:
                 # initiate Bert with random weights
                 # todo: this is not supposed to load the pre-trained weights, make sure this is true!!
-                LOGGER.info("initiating Bert with random weights")
+                print("initiating Bert with random weights")
                 model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
             else:
                 # initiate Bert with pre-trained weights
-                LOGGER.info("initiating Bert with pre-trained weights")
+                print("initiating Bert with pre-trained weights")
                 model = BertForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out,
                                         output_attentions=False, output_hidden_states=False)
 
