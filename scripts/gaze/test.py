@@ -43,8 +43,6 @@ def main(args):
         else:
             LOGGER.info("NOT fine-tuning on eye-tracking data!")
 
-        LOGGER.info(model.hidden_states())
-
         d = GazeDataset(cf, tokenizer, os.path.join(data_gaze_dir, test_task), test_task)
         d.read_pipeline()
 
