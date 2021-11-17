@@ -35,12 +35,13 @@ def main(args):
         LOGGER.info(cf.random_weights)
         model = TokenClassificationModel.init(cf, **model_init_args)
 
-        if cf.finetune_on_gaze:
-            # set finetune_on_gaze to False in the cf file loaded above to test the pretrained models without fine-tuning on eye-tracking data
+        if not cf.random_baseline:
+            # set random_baseline to True in the cf file loaded above to test on a randomly initialized regression
             LOGGER.info("Fine-tuned on eye-tracking data!")
             model.load_state_dict(torch.load(os.path.join(results_task_dir, "model-"+str(RANDOM_STATE)+".pth")))
+            print(model.classifier.weight.data)
         else:
-            LOGGER.info("NOT fine-tuning on eye-tracking data!")
+            LOGGER.info("Random regression layer, NO trained weights loaded!")
 
         d = GazeDataset(cf, tokenizer, os.path.join(data_gaze_dir, test_task), test_task)
         d.read_pipeline()

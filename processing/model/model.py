@@ -29,13 +29,13 @@ class TokenClassificationModel:
                 print("initiating Bert with random weights")
                 model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
                 model = randomize_model(model)
-                print(model.classifier)
+                print(model.classifier.weight.data)
             else:
                 # initiate Bert with pre-trained weights
                 print("initiating Bert with pre-trained weights")
                 model = BertForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out,
                                         output_attentions=False, output_hidden_states=False)
-                print(model.classifier)
+                print(model.classifier.weight.data)
 
         elif "xlm" in cf.model_pretrained:
             model = XLMForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False)
