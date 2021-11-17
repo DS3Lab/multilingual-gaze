@@ -31,9 +31,10 @@ class TokenClassificationModel:
                 # todo: this is not supposed to load the pre-trained weights, make sure this is true!!
                 print("initiating Bert with random weights")
                 config = BertConfig()
+                print(config)
                 config.out_features = 8
                 model = AutoModelForTokenClassification.from_config(config)#, num_labels=d_out)
-                print(model)
+                #print(model)
                 #model =  AutoModelForTokenClassification.from_config(AutoConfig.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False))
                 #model = randomize_model(model)
             else:
