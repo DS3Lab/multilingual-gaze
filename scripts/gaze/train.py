@@ -1,4 +1,3 @@
-from .. import settings
 from settings import DEVICE, mlflow_setup, reproducibility_setup
 
 reproducibility_setup()
