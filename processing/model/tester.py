@@ -54,6 +54,7 @@ class Tester(ABC):
             os.makedirs(dir)
 
         for key in self.metrics:
+            print(self.metrics[key])
             self.logs.append(f"{self.metrics[key]:.4f}")
 
         log_text = [self.task] + self.logs + [seed, config.model_pretrained, config.full_finetuning, config.random_weights, config.random_baseline]
