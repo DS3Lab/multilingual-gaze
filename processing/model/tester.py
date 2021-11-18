@@ -56,7 +56,7 @@ class Tester(ABC):
         for key in self.metrics:
             self.logs.append(f"{self.metrics[key]:.4f}")
 
-        log_text = [self.task] + self.logs + [seed, config.model_pretrained, config.finetune_on_gaze, config.full_finetuning, config.random_weights]
+        log_text = [self.task] + self.logs + [seed, config.model_pretrained, config.full_finetuning, config.random_weights, config.random_baseline]
 
         with open(fpath, "a") as f:
             f.write("\t".join(map(str, log_text)))
