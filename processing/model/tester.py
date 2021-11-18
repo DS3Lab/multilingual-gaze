@@ -12,6 +12,7 @@ class Tester(ABC):
 
         self.preds = []
         self.logs = []
+        self.maes = []
         self.metrics = {}  # key-value dictionary metric --> value
         self.units = {}  # key-value dictionary metric --> measurement unit
 
@@ -54,9 +55,9 @@ class Tester(ABC):
             os.makedirs(dir)
 
         for key in self.metrics:
-            self.logs.append(self.metrics[key])
+            self.maes.append(self.metrics[key])
 
-        log_text = [self.task] + self.logs[1:] + [seed, config.model_pretrained, config.full_finetuning, config.random_weights, config.random_baseline]
+        log_text = [self.task] + self.maes[1:] + [seed, config.model_pretrained, config.full_finetuning, config.random_weights, config.random_baseline]
 
         with open(fpath, "a") as f:
             f.write("\t".join(map(str, log_text)))
