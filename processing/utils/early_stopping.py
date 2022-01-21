@@ -40,7 +40,7 @@ class EarlyStopping(ABC):
             self.best_score = score
 
             LOGGER.info("Metric has improved, saving the model")
-            torch.save(self.model.state_dict(), os.path.join(self.dir, "model-"+str(RANDOM_STATE)+".pth"))
+            torch.save(self.model.state_dict(), os.path.join(self.dir, "model-"+cf.model_pretrained+"-"+cf.full_finetuning+"-"+str(RANDOM_STATE)+".pth"))
 
             self.run_patience = 0
         else:
