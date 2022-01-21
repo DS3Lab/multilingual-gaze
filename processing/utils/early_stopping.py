@@ -5,6 +5,7 @@ import mlflow
 import torch
 from pathlib import Path
 from processing.settings import LOGGER
+from processing Config
 
 exec(open('./settings.py').read())
 
@@ -29,6 +30,8 @@ class EarlyStopping(ABC):
 
         self.tester.evaluate()
         score = self.tester.metrics[self.monitor]
+
+        cf = Config.load_json(os.path.join(results_gaze_dir, "config.json"))
 
         self.model.train()
 
