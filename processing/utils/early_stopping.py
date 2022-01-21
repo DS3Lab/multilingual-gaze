@@ -5,7 +5,7 @@ import mlflow
 import torch
 from pathlib import Path
 from processing.settings import LOGGER
-from processing.config import Config
+from processing.utils.config import Config
 
 exec(open('./settings.py').read())
 
