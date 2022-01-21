@@ -31,7 +31,7 @@ class EarlyStopping(ABC):
         self.tester.evaluate()
         score = self.tester.metrics[self.monitor]
 
-        cf = Config.load_json(os.path.join(results_gaze_dir, "config.json"))
+        cf = Config.load_json(os.path.join("results/gaze/config.json"))
 
         self.model.train()
 
