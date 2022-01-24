@@ -38,6 +38,7 @@ def main(args):
         if not cf.random_baseline:
             # set random_baseline to True in the cf file loaded above to test on a randomly initialized regression
             LOGGER.info("Fine-tuned on eye-tracking data!")
+            LOGGER.info("model-"+cf.model_pretrained+"-"+str(cf.full_finetuning)+"-"+str(RANDOM_STATE)+".pth")
             model.load_state_dict(torch.load(os.path.join(results_task_dir, "model-"+cf.model_pretrained+"-"+str(cf.full_finetuning)+"-"+str(RANDOM_STATE)+".pth")))
             print(model.classifier.weight.data)
         else:
