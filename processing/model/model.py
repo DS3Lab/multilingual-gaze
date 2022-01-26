@@ -30,12 +30,11 @@ class TokenClassificationModel:
                 # initiate Bert with random weights
                 print("randomizing weights")
                 model = randomize_model(model)
-                print(model.classifier.weight.data)
+                #print(model.classifier.weight.data)
             else:
                 # initiate Bert with pre-trained weights
                 print("keeping Bert with pre-trained weights")
-
-                print(model.classifier.weight.data)
+                #print(model.classifier.weight.data)
 
         elif "xlm" in cf.model_pretrained:
             model = XLMForTokenClassification.from_pretrained(cf.model_pretrained, num_labels=d_out, output_attentions=False, output_hidden_states=False)
