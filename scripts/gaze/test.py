@@ -56,8 +56,8 @@ def main(args):
         tester.evaluate()
 
         eval_dir = os.path.join(results_gaze_dir, task)
-        tester.save_preds(os.path.join(eval_dir, "preds-"+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+".csv"))
-        tester.save_logs(os.path.join(eval_dir, "results."+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+".log"))
+        tester.save_preds(os.path.join(eval_dir, "preds-"+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+"-"+str(cf.full_finetuning)+"-"+str(cf.random_weights)+"-"+str(cf.random_baseline)+".csv"))
+        tester.save_logs(os.path.join(eval_dir, "results."+str(RANDOM_STATE)+"-"+cf.model_pretrained.replace("/","")+"-"+str(cf.full_finetuning)+"-"+str(cf.random_weights)+"-"+str(cf.random_baseline)+".log"))
         tester.save_logs_all(os.path.join(results_gaze_dir, "result_log.csv"), RANDOM_STATE, cf)
         LOGGER.info(f"Testing completed, training on task {task}, testing on {test_task}")
 
