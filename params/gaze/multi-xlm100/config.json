@@ -1,8 +1,9 @@
 {
   "feature_max": 100,
   "model_pretrained": "xlm-mlm-100-1280",
-  "finetune_on_gaze": true,
-  "full_finetuning": true,
+  "random_weights": true,
+  "full_finetuning": false,
+  "random_baseline": false,
   "weight_decay": 1e-2,
   "lr": 3e-5,
   "eps": 1e-8,
